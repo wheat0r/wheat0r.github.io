@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>麦子重构中</title>
+  
+  
+  <link href="https://wheat0r.me/atom.xml" rel="self"/>
+  
+  <link href="https://wheat0r.me/"/>
+  <updated>2022-12-28T07:50:14.111Z</updated>
+  <id>https://wheat0r.me/</id>
+  
+  <author>
+    <name>Wheat0r</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>First Post here!</title>
+    <link href="https://wheat0r.me/2022/12/26/First-Post-here/"/>
+    <id>https://wheat0r.me/2022/12/26/First-Post-here/</id>
+    <published>2022-12-26T08:09:25.000Z</published>
+    <updated>2022-12-28T07:50:14.111Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>原有WordPress数据被放弃，直接利用Hexo重新建站。</p><p>目前本blog还只是个人实验性质的玩具，短期内不会有实际内容产出。</p><p>当然，目前也没有评论系统，因为我还没想好要用那个套件。</p><p>Have fun!</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt;原有WordPress数据被放弃，直接利用Hexo重新建站。&lt;/p&gt;
+&lt;p&gt;目前本blog还只是个人实验性质的玩具，短期内不会有实际内容产出</summary>
+      
+    
+    
+    
+    <category term="Status Update" scheme="https://wheat0r.me/categories/Status-Update/"/>
+    
+    
+    <category term="hexo" scheme="https://wheat0r.me/tags/hexo/"/>
+    
+    <category term="wordpress" scheme="https://wheat0r.me/tags/wordpress/"/>
+    
+    <category term="github" scheme="https://wheat0r.me/tags/github/"/>
+    
+  </entry>
+  
+</feed>
