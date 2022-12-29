@@ -1,6 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Hexo建站体验</title>
+    <url>/2022/12/29/talk-about-hexo/</url>
+    <content><![CDATA[<h1 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h1><p>经过几天的调整，这个使用Next主题运行的GitHub Pages上的Hexo系统基本上可以正常运行了。</p>
+<h1 id="环境介绍"><a href="#环境介绍" class="headerlink" title="环境介绍"></a>环境介绍</h1><p>Hexo是静态blog系统，简单来说就是这东西会先把你写好的东西渲染成html文件，再交给httpd监听。Hexo本质上是一个后台，最终展现出来的效果大量依赖主题和各类第三方模块。</p>
+<p>Next是Hexo的一个很著名的主题，在配置文件中内置了大量的功能，让用户可以在尽量少接触代码的情况下完成站点管理。</p>
+<p>GitHub Pages给用户提供了一个简单的httd实例，允许用户运行简单的网站。</p>
+<p>接下来就简单讨论一下整体建站体验和一些使用细节。</p>
+<span id="more"></span>
+
+<h1 id="Hexo优缺点"><a href="#Hexo优缺点" class="headerlink" title="Hexo优缺点"></a>Hexo优缺点</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ul>
+<li>静态页面确实快</li>
+<li>支持很多部署方式</li>
+<li>文档非常成熟</li>
+<li>利用GitHub Pages建站可靠性好</li>
+<li>生态系统不错</li>
+</ul>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><h3 id="纯粹为工程师服务"><a href="#纯粹为工程师服务" class="headerlink" title="纯粹为工程师服务"></a>纯粹为工程师服务</h3><p>不论是github建站、vps上面跑git还是其他部署方式，本地操作-部署-在线运行的模式对于站长来说无异于脱了裤子放屁。</p>
+<p>而对于只是想找个环境写写字的用户，这种操作逻辑根本无从下手。</p>
+<h3 id="不存在多用户创作"><a href="#不存在多用户创作" class="headerlink" title="不存在多用户创作"></a>不存在多用户创作</h3><p>Hexo根本没有考虑多用户，有一些旁门左道的办法可以实现，但是相信我，能看懂怎么做的人都自己建站了。</p>
+<h3 id="核心功能缺失"><a href="#核心功能缺失" class="headerlink" title="核心功能缺失"></a>核心功能缺失</h3><p>大量对于blog来说非常基础的功能都要依赖第三方的插件或服务，甚至连评论系统都欠奉。</p>
+<p>一方面，一个系统引入的外部组件越多，各组件之间的版本兼容关系就越复杂，集成需要的调试也越多，后续需要编写的文档就更多。</p>
+<p>另一方面，依赖第三方服务，整个系统的可靠性就会受到更多单点的影响，而且产生的数据也很难集中管理和保护。</p>
+<h3 id="没有可视化后台"><a href="#没有可视化后台" class="headerlink" title="没有可视化后台"></a>没有可视化后台</h3><p>这是纯粹为工程师设计的结果，没有所见即所得，更没有文章、页面管理的功能，你要做的是版本管理。</p>
+<h1 id="重点讨论"><a href="#重点讨论" class="headerlink" title="重点讨论"></a>重点讨论</h1><h2 id="评论系统"><a href="#评论系统" class="headerlink" title="评论系统"></a>评论系统</h2><p>由于Hexo不存在评论系统，很多外置的评论系统应运而生，这些评论系统分成三个阵营。</p>
+<h3 id="GitHub-Issues类"><a href="#GitHub-Issues类" class="headerlink" title="GitHub Issues类"></a>GitHub Issues类</h3><p>这类评论系统，会把所有评论作为issue处理。</p>
+<p>这样做的好处是GitHub作为一个可靠的环境，你的评论数据是很难丢失的。</p>
+<p>但是很明显，这些系统是依赖GitHub的，同时读者没有办法进行匿名评论。从某个角度说，利用issues存放评论算不算对GitHub的滥用？</p>
+<h3 id="无后端类"><a href="#无后端类" class="headerlink" title="无后端类"></a>无后端类</h3><p>以valine为代表的无后端类评论系统，虽然提供更强大的功能，但同时会引入更多后端。</p>
+<p>以waline为例，官方快速上手文档使用LeanCloud创建数据库，并在Vercel中部署server，最后在Hexo中引入客户端，就这样，一个无后端的东西就给你增加了两个后端和一串html代码。</p>
+<p>当然你也可以选择其他的serverless服务或利用vps独立部署，但是这斌不会减少运维成本。</p>
+<h3 id="第三方服务"><a href="#第三方服务" class="headerlink" title="第三方服务"></a>第三方服务</h3><p>用过blogspot的朋友一定还记得disqus，功能强大，可以更好的管理评论，同时用户很少需要考虑运行状况。</p>
+<p>但是这类服务就怕跑路，万一哪天它不干了，你还要考虑系统迁移。</p>
+<h3 id="放弃"><a href="#放弃" class="headerlink" title="放弃"></a>放弃</h3><p>当然你也可以选择放弃。</p>
+<p><del>放弃这种方式，具有无数据、无后台的巨大优势，适合不打算听别人怎么说的用户。</del></p>
+<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>不仅是视觉效果，Hexo的前端功能全部依赖主题实现，搭配不同主题，Hexo就是完全不同的维护和阅读体验，因此选择主题可能才是一切的开始。</p>
+<p>优秀的主题应该具有以下特征：</p>
+<ul>
+<li>通过配置文件实现快速自定义</li>
+<li>基于data files进行深度自定义</li>
+<li>自带常见评论系统集成</li>
+<li>持续更新</li>
+<li>文档全面</li>
+</ul>
+<h2 id="数据存放"><a href="#数据存放" class="headerlink" title="数据存放"></a>数据存放</h2><p>很显然，如果你是在GitHub Pages上部署Hexo，你不应该把媒体文件一并上传到repo里，这不仅是因为容量限制，也是对免费服务的滥用。</p>
+<p>因此，如果你的文章中经常用到图片、音频、视频文件，你可能就要找图床、对象存储、视频网站来解决问题了。而这些服务又会引入非常多运维工作量。</p>
+<h1 id="小技巧"><a href="#小技巧" class="headerlink" title="小技巧"></a>小技巧</h1><h2 id="我有很多电脑怎么办？"><a href="#我有很多电脑怎么办？" class="headerlink" title="我有很多电脑怎么办？"></a>我有很多电脑怎么办？</h2><p>把你电脑上的目录同步起来吧，群晖、OneDrive什么的都好，其他电脑上只需要把环境搭好就行了。</p>
+<p>当然你也可以选择在每个电脑上搭好环境，把source目录放进另一个branch，每次切换之后做一整套git操作。</p>
+<p>相信我，不管用哪一种方法，几次之后，你就不会再想用不同电脑创作了。</p>
+<h2 id="注意鉴别文档"><a href="#注意鉴别文档" class="headerlink" title="注意鉴别文档"></a>注意鉴别文档</h2><p>不管是Hexo还是对应的主题，不同版本的变化都很大，查询文档的适合一定要注意对应的版本。</p>
+<p>你还要小心鉴别作者自己都没搞懂的文档。</p>
+<p>很多文档都告诉你，每次写完新文章，要用<code>hexo clean</code> <code>hexo g</code>  <code>hexo d</code>完成部署，实际上<code>hexo clean</code>更多是在主题样式需改后才需要使用。启动服务器命令<code>hexo s</code>也根本不需要事先静态，这个命令不仅会把source里的东西立刻渲染给你看，还是实时监控source里的更新。</p>
+<p>还有一个文档甚至建议在vps上独立部署的hexo直接用nginx反向代理<code>hexo s</code>的监听端口，一堆静态页面你反代它干啥？你还真打算拿Hexo当动态blog用？</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>Hexo就像Raspberry Pi，你折腾它的时间一定超过使用的时间。</p>
+<p>如果你只是一个想写写字的人，不打算做一个工程师，请立刻绕行，不要再多看一个Hexo的文档。</p>
+]]></content>
+      <categories>
+        <category>Tech</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>wordpress</tag>
+        <tag>github</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>First Post here!</title>
     <url>/2022/12/26/First-Post-here/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>原有WordPress数据被放弃，直接利用Hexo重新建站。</p>
