@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>First Post here!</title>
+    <url>/2022/12/26/First-Post-here/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>原有WordPress数据被放弃，直接利用Hexo重新建站。</p>
+<p>目前本blog还只是个人实验性质的玩具，短期内不会有实际内容产出。</p>
+<p>当然，目前也没有评论系统，因为我还没想好要用那个套件。</p>
+<p>Have fun!</p>
+]]></content>
+      <categories>
+        <category>Status Update</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>wordpress</tag>
+        <tag>github</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo建站体验</title>
     <url>/2022/12/29/talk-about-hexo/</url>
     <content><![CDATA[<h1 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h1><p>经过几天的调整，这个使用Next主题运行的GitHub Pages上的Hexo系统基本上可以正常运行了。</p>
@@ -58,23 +75,6 @@
 ]]></content>
       <categories>
         <category>Tech</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>wordpress</tag>
-        <tag>github</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>First Post here!</title>
-    <url>/2022/12/26/First-Post-here/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>原有WordPress数据被放弃，直接利用Hexo重新建站。</p>
-<p>目前本blog还只是个人实验性质的玩具，短期内不会有实际内容产出。</p>
-<p>当然，目前也没有评论系统，因为我还没想好要用那个套件。</p>
-<p>Have fun!</p>
-]]></content>
-      <categories>
-        <category>Status Update</category>
       </categories>
       <tags>
         <tag>hexo</tag>
