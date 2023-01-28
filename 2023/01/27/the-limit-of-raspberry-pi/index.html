@@ -20,23 +20,32 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"wheat0r.me","root":"/","images":"/images","scheme":"Pisces","darkmode":"auto","version":"8.14.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-next/8.14.1/config.min.js"></script>
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="麦子重构中">
-<meta property="og:url" content="https://wheat0r.me/index.html">
+    <meta name="description" content="TL;DR 包括第四代在内的Raspberry Pi设备，应该只适用于小负载、无加密、多线程的生产和实验环境 不适合高速网络环境中的透明代理、高负载的https服务、各种VPN网关、NAS服务、桌面环境 更适合作为终端而不是服务器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Raspberry Pi不全能">
+<meta property="og:url" content="https://wheat0r.me/2023/01/27/the-limit-of-raspberry-pi/index.html">
 <meta property="og:site_name" content="麦子重构中">
+<meta property="og:description" content="TL;DR 包括第四代在内的Raspberry Pi设备，应该只适用于小负载、无加密、多线程的生产和实验环境 不适合高速网络环境中的透明代理、高负载的https服务、各种VPN网关、NAS服务、桌面环境 更适合作为终端而不是服务器">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-01-27T02:57:22.000Z">
+<meta property="article:modified_time" content="2023-01-28T09:51:26.597Z">
 <meta property="article:author" content="Wheat0r">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Raspberry Pi">
+<meta property="article:tag" content="AES-NI">
+<meta property="article:tag" content="NTFS3">
+<meta property="article:tag" content="HomeLab">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://wheat0r.me/">
+<link rel="canonical" href="https://wheat0r.me/2023/01/27/the-limit-of-raspberry-pi/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"en","comments":"","permalink":"","path":"index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://wheat0r.me/2023/01/27/the-limit-of-raspberry-pi/","path":"2023/01/27/the-limit-of-raspberry-pi/","title":"Raspberry Pi不全能"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>麦子重构中</title>
+<title>Raspberry Pi不全能 | 麦子重构中</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-740DTQ4S35"></script>
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-740DTQ4S35","only_pageview":false}</script>
@@ -75,7 +84,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">麦子重构中</h1>
+      <p class="site-title">麦子重构中</p>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -128,7 +137,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -141,6 +150,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.</span> <span class="nav-text">TL;DR</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E5%A4%87%E5%BC%B1%E7%82%B9"><span class="nav-number">2.</span> <span class="nav-text">设备弱点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CPU%E6%80%A7%E8%83%BD%E7%BE%B8%E5%BC%B1"><span class="nav-number">2.1.</span> <span class="nav-text">CPU性能羸弱</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%BA%E5%B0%91AES-NI"><span class="nav-number">2.2.</span> <span class="nav-text">缺少AES-NI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%BA%E5%B0%91PCI-E%E6%89%A9%E5%B1%95%E8%83%BD%E5%8A%9B"><span class="nav-number">2.3.</span> <span class="nav-text">缺少PCI-E扩展能力</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%9B%E7%94%B5%E5%9B%B0%E9%9A%BE"><span class="nav-number">2.4.</span> <span class="nav-text">供电困难</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NTFS%E9%97%AE%E9%A2%98"><span class="nav-number">2.5.</span> <span class="nav-text">NTFS问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%B7%E6%A0%BC"><span class="nav-number">2.6.</span> <span class="nav-text">价格</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%A3%E7%A1%AE%E7%9A%84%E5%A7%BF%E5%8A%BF"><span class="nav-number">3.</span> <span class="nav-text">正确的姿势</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">3.1.</span> <span class="nav-text">DNS服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Home-Assistant"><span class="nav-number">3.2.</span> <span class="nav-text">Home Assistant</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%8F%E6%98%8E%E4%BB%A3%E7%90%86"><span class="nav-number">3.3.</span> <span class="nav-text">透明代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%95%86%E7%94%A8"><span class="nav-number">3.4.</span> <span class="nav-text">商用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%88%91%E6%83%B3%E8%A6%81HomeLab"><span class="nav-number">4.</span> <span class="nav-text">我想要HomeLab</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -190,16 +200,17 @@
 
     </div>
 
-    <div class="main-inner index posts-expand">
+    <div class="main-inner post posts-expand">
 
-    
+
+  
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
     <link itemprop="mainEntityOfPage" href="https://wheat0r.me/2023/01/27/the-limit-of-raspberry-pi/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -213,13 +224,13 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 麦子重构中">
+      <meta itemprop="name" content="Raspberry Pi不全能 | 麦子重构中">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/01/27/the-limit-of-raspberry-pi/" class="post-title-link" itemprop="url">Raspberry Pi不全能</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          Raspberry Pi不全能
+        </h1>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -258,210 +269,68 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h1><ul>
+        <h1 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h1><ul>
 <li>包括第四代在内的Raspberry Pi设备，应该只适用于小负载、无加密、多线程的生产和实验环境</li>
 <li>不适合高速网络环境中的透明代理、高负载的https服务、各种VPN网关、NAS服务、桌面环境</li>
 <li>更适合作为终端而不是服务器</li>
 </ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/01/27/the-limit-of-raspberry-pi/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
+<span id="more"></span>
+
+<h1 id="设备弱点"><a href="#设备弱点" class="headerlink" title="设备弱点"></a>设备弱点</h1><h2 id="CPU性能羸弱"><a href="#CPU性能羸弱" class="headerlink" title="CPU性能羸弱"></a>CPU性能羸弱</h2><p>BCM2711性能不足是有目共睹的，落后的制程又让其在高负载运行中温度难以控制，需要类似Argon Neo的这种全金属外壳甚至主动散热来释放温度。</p>
+<p>RPi 4的整体性能并不足以支撑一个LXDE环境和各种桌面应用，你甚至很难流畅观看FHD的弹幕视频。</p>
+<h2 id="缺少AES-NI"><a href="#缺少AES-NI" class="headerlink" title="缺少AES-NI"></a>缺少AES-NI</h2><p>BCM2711并不带有AES硬件加速功能，AES性能可以用不堪一击形容，4核AES-256性能被i3-8100T单核虚拟机吊打。</p>
+<p>当然还有chacha20系的算法可以用，性能要比AES好非常多，可是依然比x86弱不少。</p>
+<p>因此，包括传统VPN、wireguard、负载均衡、代理服务器在内的所有涉及加解密的场景，Raspberry Pi都很难提供足够的性能。</p>
+<h2 id="缺少PCI-E扩展能力"><a href="#缺少PCI-E扩展能力" class="headerlink" title="缺少PCI-E扩展能力"></a>缺少PCI-E扩展能力</h2><p>除了CM4有一个PCI-E x1的接口以外，所有RPi都没有可以直接可见的PCI-E。</p>
+<p>因此，NVMe SSD就不用想了，有线网卡最多可以上2.5Gbe，还会抢占其他USB设备的带宽，并且造成2.4GHz的干扰</p>
+<h2 id="供电困难"><a href="#供电困难" class="headerlink" title="供电困难"></a>供电困难</h2><p>按照官方指导文件里的描述，RPi 4应该通过一个至少5V&#x2F;3A的适配器供电，在USB设备总电流不超过500mA时可以使用2.5A适配器，但不支持USB-PD协议。</p>
+<p>然而市面上不支持USB-PD但能提供超过3A电流的5V适配器并没有很多选择，大多数通用的适配器和插排都只提供2.4A最大电流。</p>
+<h2 id="NTFS问题"><a href="#NTFS问题" class="headerlink" title="NTFS问题"></a>NTFS问题</h2><p>这个问题是整个Linux的问题，但RPi受到的影响尤其明显。</p>
+<p>5.15内核并入了NTFS3驱动，可以在低性能的设备上替代NTFS-3G驱动，提供更好的读写性能和更低的开销。但是NTFS3本身还有非常多问题，缺少配套工具、大量bug和兼容性问题、缺少文档</p>
+<p>我手里的三个NTFS设备，有两个可以通过NTFS3挂载，有一个死活不行，找不到任何的文档可以处理或解释这个故障，就算有patch修复这个问题，可又不会并入现有5.15内核，安装新内核还要去backports，这有可能会带来其他问题。而NTFS-3G的性能又非常堪忧，x86设备的性能足够硬扛NTFS-3G，RPi则很容易在高强度读写的情况下挂死。</p>
+<h2 id="价格"><a href="#价格" class="headerlink" title="价格"></a>价格</h2><p>这本不是一个问题，Raspberry Pi 4本应该是价格最划算的<em>单板计算机</em>之一，但是Covid-19改变了一切，现在一块4GB内存的RPi 4要价近1k，在这个价格上好的选择非常多</p>
+<h1 id="正确的姿势"><a href="#正确的姿势" class="headerlink" title="正确的姿势"></a>正确的姿势</h1><h2 id="DNS服务器"><a href="#DNS服务器" class="headerlink" title="DNS服务器"></a>DNS服务器</h2><p>旁路DNS服务器可能是老款RPi的正确使用姿势，家用环境下DNS不管多少请求都不会消耗太多性能，也不需要很大的吞吐</p>
+<p>不管是PiHole还是AdGuard Home都可以轻松应对</p>
+<p>但是要注意上游DNS如果是TLS的，这负载就要再算算了</p>
+<h2 id="Home-Assistant"><a href="#Home-Assistant" class="headerlink" title="Home Assistant"></a>Home Assistant</h2><p>直接部署HAOS，自带WiFi和蓝牙，无脑连接大量家居设备，还可以对接homekit，打通多方协议</p>
+<h2 id="透明代理"><a href="#透明代理" class="headerlink" title="透明代理"></a>透明代理</h2><p>前面提到了RPi并不适合作为高带宽环境中的透明代理，但是在一个500M以内家用宽带的环境中，RPi 4跑一个chacha20的代理还是可以提供一个令人满意的性能</p>
+<p>独立设备跑透明代理的好处就是可以充分利用clash的自动路由，不需要考虑容器、虚拟化网络的特殊性</p>
+<h2 id="商用"><a href="#商用" class="headerlink" title="商用"></a>商用</h2><p>只要成本划得来、性能跟得上，RPi依然是非常无脑的嵌入式主机</p>
+<p>你猜猜一个RPi 4+显示器套一个铁壳子，插上RFID读卡器，这样一套东西卖给用户几万比较合适？</p>
+<h1 id="我想要HomeLab"><a href="#我想要HomeLab" class="headerlink" title="我想要HomeLab"></a>我想要HomeLab</h1><p>是的，我知道很多人在用RPi做轻量的HomeLab主机，甚至感觉还不错。</p>
+<p>但是当你的HomeLab出现对第二快RPi的需求的时候，RPi就已经不合适了，这个时候不如搞一套x86的电子垃圾，把家里那些旧电脑留下的DDR4内存、SATA SSD用起来，只需要一块4GB RPi4的预算，你就有机会得到一套至少拥有4核x86内核的全闪存无头主机，而它可以提供的性能和功能都远远超过4GB RPi4。</p>
+<p>有x86架构，你可以从容的运行所有可以在RPi上运行的应用，同时还有余力跑一个Windows虚拟机来专门对付各种网盘客户端。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/Raspberry-Pi/" rel="tag"># Raspberry Pi</a>
+              <a href="/tags/AES-NI/" rel="tag"># AES-NI</a>
+              <a href="/tags/NTFS3/" rel="tag"># NTFS3</a>
+              <a href="/tags/HomeLab/" rel="tag"># HomeLab</a>
+          </div>
+
         
-      
-    </div>
 
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wheat0r.me/2022/12/29/talk-about-hexo/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/favicon/avatar.webp">
-      <meta itemprop="name" content="Wheat0r">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="麦子重构中">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 麦子重构中">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/12/29/talk-about-hexo/" class="post-title-link" itemprop="url">Hexo建站体验</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2022-12-29 14:44:53 / Modified: 17:02:14" itemprop="dateCreated datePublished" datetime="2022-12-29T14:44:53+08:00">2022-12-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Tech/" itemprop="url" rel="index"><span itemprop="name">Tech</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h1><p>经过几天的调整，这个使用Next主题运行的GitHub Pages上的Hexo系统基本上可以正常运行了。</p>
-<h1 id="环境介绍"><a href="#环境介绍" class="headerlink" title="环境介绍"></a>环境介绍</h1><p>Hexo是静态blog系统，简单来说就是这东西会先把你写好的东西渲染成html文件，再交给httpd监听。Hexo本质上是一个后台，最终展现出来的效果大量依赖主题和各类第三方模块。</p>
-<p>Next是Hexo的一个很著名的主题，在配置文件中内置了大量的功能，让用户可以在尽量少接触代码的情况下完成站点管理。</p>
-<p>GitHub Pages给用户提供了一个简单的httd实例，允许用户运行简单的网站。</p>
-<p>接下来就简单讨论一下整体建站体验和一些使用细节。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/12/29/talk-about-hexo/#more" rel="contents">
-                Read more &raquo;
-              </a>
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/12/29/talk-about-hexo/" rel="prev" title="Hexo建站体验">
+                  <i class="fa fa-chevron-left"></i> Hexo建站体验
+                </a>
             </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
+            <div class="post-nav-item">
+            </div>
+          </div>
     </footer>
   </article>
 </div>
 
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wheat0r.me/2022/12/26/First-Post-here/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/favicon/avatar.webp">
-      <meta itemprop="name" content="Wheat0r">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="麦子重构中">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 麦子重构中">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/12/26/First-Post-here/" class="post-title-link" itemprop="url">First Post here!</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-12-26 16:09:25" itemprop="dateCreated datePublished" datetime="2022-12-26T16:09:25+08:00">2022-12-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-12-28 15:50:14" itemprop="dateModified" datetime="2022-12-28T15:50:14+08:00">2022-12-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Status-Update/" itemprop="url" rel="index"><span itemprop="name">Status Update</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>原有WordPress数据被放弃，直接利用Hexo重新建站。</p>
-<p>目前本blog还只是个人实验性质的玩具，短期内不会有实际内容产出。</p>
-<p>当然，目前也没有评论系统，因为我还没想好要用那个套件。</p>
-<p>Have fun!</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
 
 
 
